@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猪猪侠的网页作品</title>
+    <style id="theme-vars">
+/* 猪猪侠网页作品展示 - 深色紫蓝渐变主题 */
+:root {
+  /* Brand foundation */
+  --brand-bg: #0B0B0F;
+  --brand-surface: #14141F;
+  --brand-surface-2: #1E1E2D;
+  --brand-surface-3: #27273A;
+
+  /* Text */
+  --brand-ink: #F4F4F5;
+  --brand-ink-2: #A1A1AA;
+  --brand-ink-3: #71717A;
+
+  /* Primary gradient hue */
+  --brand-violet: #7C3AED;
+  --brand-blue: #2563EB;
+  --brand-primary: var(--brand-violet);
+  --brand-primary-ink: #FFFFFF;
+  --brand-gradient: linear-gradient(135deg, var(--brand-violet) 0%, var(--brand-blue) 100%);
+  --brand-gradient-subtle: linear-gradient(135deg, rgba(124, 58, 237, 0.12) 0%, rgba(37, 99, 235, 0.12) 100%);
+
+  /* State colors */
+  --brand-state-success: #22C55E;
+  --brand-state-warning: #F59E0B;
+  --brand-state-error: #EF4444;
+  --brand-state-info: #3B82F6;
+
+  /* Borders & lines */
+  --brand-line: rgba(255, 255, 255, 0.08);
+  --brand-line-strong: rgba(255, 255, 255, 0.14);
+
+  /* Shadows */
+  --brand-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.24), 0 1px 1px rgba(0, 0, 0, 0.16);
+  --brand-shadow-2: 0 8px 24px -8px rgba(0, 0, 0, 0.48);
+  --brand-shadow-3: 0 24px 60px -20px rgba(0, 0, 0, 0.64);
+
+  /* Radius */
+  --brand-radius-xs: 2px;
+  --brand-radius-sm: 4px;
+  --brand-radius-md: 8px;
+  --brand-radius-lg: 16px;
+  --brand-radius-pill: 999px;
+
+  /* Typography */
+  --brand-font-sans: Inter, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --brand-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", ui-monospace, monospace;
+
+  /* Semantic aliases for apply-html-head-contract.mjs */
+  --brand-background: #0B0B0F;
+  --brand-foreground: #F4F4F5;
+  --brand-card: #14141F;
+  --brand-card-foreground: #F4F4F5;
+  --brand-popover: #1E1E2D;
+  --brand-popover-foreground: #F4F4F5;
+  --brand-primary-foreground: #FFFFFF;
+  --brand-muted: #1E1E2D;
+  --brand-muted-foreground: #A1A1AA;
+  --brand-border: rgba(255, 255, 255, 0.08);
+  --brand-input: rgba(255, 255, 255, 0.08);
+  --brand-ring: #7C3AED;
+  --brand-radius-sm: 4px;
+  --brand-radius-md: 8px;
+  --brand-radius-lg: 16px;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--brand-font-sans);
+  background-color: var(--brand-bg);
+  color: var(--brand-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.gradient-text {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg {
+  background: var(--brand-gradient);
+}
+
+.gradient-border {
+  position: relative;
+}
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--brand-gradient);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--brand-background);
+    --color-foreground: var(--brand-foreground);
+    --color-card: var(--brand-card);
+    --color-card-foreground: var(--brand-card-foreground);
+    --color-popover: var(--brand-popover);
+    --color-popover-foreground: var(--brand-popover-foreground);
+    --color-primary: var(--brand-primary);
+    --color-primary-foreground: var(--brand-primary-foreground);
+    --color-muted: var(--brand-muted);
+    --color-muted-foreground: var(--brand-muted-foreground);
+    --color-border: var(--brand-border);
+    --color-input: var(--brand-input);
+    --color-ring: var(--brand-ring);
+    --radius-sm: var(--brand-radius-sm);
+    --radius-md: var(--brand-radius-md);
+    --radius-lg: var(--brand-radius-lg);
+  }
+  @layer base {
+    body { background: var(--brand-background); color: var(--brand-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--brand-background); }
+      .text-background { color: var(--brand-background); }
+      .border-background { border-color: var(--brand-background); }
+      .ring-background { --tw-ring-color: var(--brand-background); }
+      .bg-foreground { background-color: var(--brand-foreground); }
+      .text-foreground { color: var(--brand-foreground); }
+      .border-foreground { border-color: var(--brand-foreground); }
+      .ring-foreground { --tw-ring-color: var(--brand-foreground); }
+      .bg-card { background-color: var(--brand-card); }
+      .text-card { color: var(--brand-card); }
+      .border-card { border-color: var(--brand-card); }
+      .ring-card { --tw-ring-color: var(--brand-card); }
+      .bg-card-foreground { background-color: var(--brand-card-foreground); }
+      .text-card-foreground { color: var(--brand-card-foreground); }
+      .border-card-foreground { border-color: var(--brand-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--brand-card-foreground); }
+      .bg-popover { background-color: var(--brand-popover); }
+      .text-popover { color: var(--brand-popover); }
+      .border-popover { border-color: var(--brand-popover); }
+      .ring-popover { --tw-ring-color: var(--brand-popover); }
+      .bg-popover-foreground { background-color: var(--brand-popover-foreground); }
+      .text-popover-foreground { color: var(--brand-popover-foreground); }
+      .border-popover-foreground { border-color: var(--brand-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--brand-popover-foreground); }
+      .bg-primary { background-color: var(--brand-primary); }
+      .text-primary { color: var(--brand-primary); }
+      .border-primary { border-color: var(--brand-primary); }
+      .ring-primary { --tw-ring-color: var(--brand-primary); }
+      .bg-primary-foreground { background-color: var(--brand-primary-foreground); }
+      .text-primary-foreground { color: var(--brand-primary-foreground); }
+      .border-primary-foreground { border-color: var(--brand-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--brand-primary-foreground); }
+      .bg-muted { background-color: var(--brand-muted); }
+      .text-muted { color: var(--brand-muted); }
+      .border-muted { border-color: var(--brand-muted); }
+      .ring-muted { --tw-ring-color: var(--brand-muted); }
+      .bg-muted-foreground { background-color: var(--brand-muted-foreground); }
+      .text-muted-foreground { color: var(--brand-muted-foreground); }
+      .border-muted-foreground { border-color: var(--brand-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--brand-muted-foreground); }
+      .bg-border { background-color: var(--brand-border); }
+      .text-border { color: var(--brand-border); }
+      .border-border { border-color: var(--brand-border); }
+      .ring-border { --tw-ring-color: var(--brand-border); }
+      .bg-input { background-color: var(--brand-input); }
+      .text-input { color: var(--brand-input); }
+      .border-input { border-color: var(--brand-input); }
+      .ring-input { --tw-ring-color: var(--brand-input); }
+      .bg-ring { background-color: var(--brand-ring); }
+      .text-ring { color: var(--brand-ring); }
+      .border-ring { border-color: var(--brand-ring); }
+      .ring-ring { --tw-ring-color: var(--brand-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+
+      .hero-glow {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 20% 35%, rgba(124, 58, 237, 0.18) 0%, transparent 45%),
+          radial-gradient(circle at 80% 65%, rgba(37, 99, 235, 0.14) 0%, transparent 45%);
+      }
+
+      :root {
+        --nav-glass-bg: rgba(11, 11, 15, 0.72);
+      }
+      .nav-scrolled {
+        background-color: var(--nav-glass-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--brand-line);
+      }
+
+      .text-error {
+        color: var(--brand-state-error);
+      }
+      .bg-error-soft {
+        background-color: rgba(239, 68, 68, 0.12);
+      }
+
+      .shadow-2 {
+        box-shadow: var(--brand-shadow-2);
+      }
+      .shadow-3 {
+        box-shadow: var(--brand-shadow-3);
+      }
+
+      html, body {
+        overflow-x: hidden;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+      @media (max-width: 767px) {
+        .mobile-menu {
+          display: none;
+        }
+        .mobile-menu.open {
+          display: flex;
+        }
+      }
+    </style>
+</head>
+<body class="min-h-screen font-sans antialiased">
+    <main>
+      <!-- Navigation -->
+      <nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" role="navigation" aria-label="主导航">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+          <div class="flex items-center justify-between h-16 lg:h-20">
+            <a href="#hero" data-dom-id="nav-logo" class="flex items-center gap-2 text-foreground font-semibold text-lg tracking-tight">
+              <span class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center">
+                <i data-lucide="code-2" class="w-5 h-5 text-primary-foreground"></i>
+              </span>
+              <span>猪猪侠</span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-8">
+              <a href="#hero" data-dom-id="nav-home" class="nav-link text-muted-foreground hover:text-foreground transition-colors text-sm font-medium">首页</a>
+              <a href="#about" data-dom-id="nav-about" class="nav-link text-muted-foreground hover:text-foreground transition-colors text-sm font-medium">关于</a>
+              <a href="#works" data-dom-id="nav-works" class="nav-link text-muted-foreground hover:text-foreground transition-colors text-sm font-medium">作品与留言</a>
+            </div>
+
+            <button data-dom-id="mobile-menu-toggle" class="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-border text-foreground hover:bg-muted transition-colors" aria-label="打开菜单" aria-expanded="false">
+              <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="mobile-menu md:hidden absolute top-full left-0 right-0 flex-col border-b border-border bg-background/95 backdrop-blur-md" id="mobile-menu">
+          <div class="px-6 py-4 flex flex-col gap-3">
+            <a href="#hero" class="mobile-nav-link text-foreground hover:text-primary transition-colors py-2 text-base font-medium">首页</a>
+            <a href="#about" class="mobile-nav-link text-foreground hover:text-primary transition-colors py-2 text-base font-medium">关于</a>
+            <a href="#works" class="mobile-nav-link text-foreground hover:text-primary transition-colors py-2 text-base font-medium">作品与留言</a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero -->
+      <section id="hero" class="relative min-h-screen flex items-center justify-center bg-background overflow-hidden">
+        <div class="hero-glow" aria-hidden="true"></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-6 lg:px-8 text-center pt-20">
+          <p class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-muted border border-border text-muted-foreground text-sm font-medium mb-8">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            网页作品展示
+          </p>
+          <h1 class="text-[clamp(2.5rem,7vw,5rem)] font-bold leading-[1.1] tracking-tight mb-6">
+            你好，我是 <span class="gradient-text">猪猪侠</span>
+          </h1>
+          <p class="max-w-2xl mx-auto text-lg text-muted-foreground leading-relaxed mb-10">
+            这里记录了我做过的网页作品，也欢迎大家留下带图的评论。简单上传、即时展示，全部保存在本地浏览器中。
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="#works" data-dom-id="hero-cta-works" class="group inline-flex items-center gap-2 px-8 py-4 rounded-full gradient-bg text-primary-foreground font-semibold shadow-2 hover:shadow-3 hover:-translate-y-0.5 transition-all">
+              <span>浏览作品</span>
+              <i data-lucide="arrow-down" class="w-4 h-4 group-hover:translate-y-0.5 transition-transform"></i>
+            </a>
+            <button data-dom-id="hero-upload-btn" class="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-border text-foreground font-medium hover:bg-muted transition-colors">
+              <i data-lucide="upload" class="w-4 h-4"></i>
+              <span>上传图片</span>
+            </button>
+          </div>
+        </div>
+        <a href="#about" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-foreground transition-colors animate-bounce" aria-label="向下滚动">
+          <i data-lucide="chevron-down" class="w-6 h-6"></i>
+        </a>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="relative py-24 lg:py-32 bg-background">
+        <div class="max-w-3xl mx-auto px-6 lg:px-8 text-center">
+          <p class="text-primary font-semibold text-sm tracking-wide uppercase mb-3">关于我</p>
+          <h2 class="text-3xl lg:text-4xl font-bold text-foreground mb-6">猪猪侠</h2>
+          <p class="text-muted-foreground text-lg leading-relaxed">
+            一个热爱网页设计与前端开发的人。我喜欢把想法变成可交互的页面，也期待看到你的评论和作品。
+          </p>
+        </div>
+      </section>
+
+      <!-- Works & Comments -->
+      <section id="works" class="relative py-24 lg:py-32 bg-background">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+          <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-12">
+            <div class="max-w-3xl">
+              <p class="text-primary font-semibold text-sm tracking-wide uppercase mb-3">作品与留言</p>
+              <h2 class="text-3xl lg:text-4xl font-bold text-foreground mb-4">我的网页 & 大家的留言</h2>
+              <p class="text-muted-foreground text-lg">
+                这里混合展示我的作品和访客留言，点击图片可以查看大图，悬停可删除自己上传的内容。
+              </p>
+            </div>
+            <button data-dom-id="upload-work-btn" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full gradient-bg text-primary-foreground font-semibold shadow-2 hover:shadow-3 hover:-translate-y-0.5 transition-all whitespace-nowrap">
+              <i data-lucide="upload" class="w-4 h-4"></i>
+              <span>上传图片</span>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8" id="works-grid">
+            <div id="empty-state" class="col-span-full flex flex-col items-center justify-center gap-4 py-20 rounded-2xl border border-dashed border-border bg-muted text-center">
+              <div class="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center">
+                <i data-lucide="image-plus" class="w-7 h-7 text-primary-foreground"></i>
+              </div>
+              <div>
+                <p class="text-foreground font-medium mb-1">还没有内容</p>
+                <p class="text-muted-foreground text-sm">点击右上角“上传图片”添加你的作品或评论</p>
+              </div>
+              <button type="button" data-dom-id="empty-upload-btn" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full gradient-bg text-primary-foreground text-sm font-semibold hover:shadow-2 transition-shadow">
+                <i data-lucide="upload" class="w-4 h-4"></i>
+                <span>立即上传</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="py-8 bg-background border-t border-border">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+          <p class="text-muted-foreground text-sm">
+            © 2026 猪猪侠. 欢迎留下你的作品和评论。
+          </p>
+        </div>
+      </footer>
+
+      <!-- Detail Modal -->
+      <div id="detail-modal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true" aria-labelledby="detail-modal-title">
+        <div class="detail-modal-backdrop absolute inset-0 bg-background/80 backdrop-blur-sm" aria-hidden="true"></div>
+        <div class="relative z-10 flex items-center justify-center min-h-screen p-4 sm:p-6">
+          <div class="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-card border border-border shadow-3">
+            <div class="relative">
+              <img id="detail-image" src="" alt="" class="w-full aspect-[16/9] object-cover">
+              <button data-dom-id="detail-modal-close" class="absolute top-4 right-4 inline-flex items-center justify-center w-10 h-10 rounded-full bg-background/80 text-foreground hover:bg-background border border-border transition-colors" aria-label="关闭">
+                <i data-lucide="x" class="w-5 h-5"></i>
+              </button>
+            </div>
+            <div class="p-6 lg:p-8">
+              <span id="detail-type" class="inline-block px-2 py-1 rounded-md text-xs font-medium mb-3"></span>
+              <h3 id="detail-modal-title" class="text-2xl lg:text-3xl font-bold text-foreground mb-3"></h3>
+              <p id="detail-description" class="text-muted-foreground leading-relaxed mb-6"></p>
+              <div id="detail-tags" class="flex flex-wrap gap-2 mb-6"></div>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <a id="detail-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full gradient-bg text-primary-foreground font-semibold hover:shadow-2 transition-shadow">
+                  <span>访问链接</span>
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+                <button class="detail-modal-close-secondary inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-border text-foreground font-medium hover:bg-muted transition-colors">
+                  <span>关闭</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload Modal -->
+      <div id="upload-modal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true" aria-labelledby="upload-modal-title">
+        <div class="upload-modal-backdrop absolute inset-0 bg-background/80 backdrop-blur-sm" aria-hidden="true"></div>
+        <div class="relative z-10 flex items-center justify-center min-h-screen p-4 sm:p-6">
+          <div class="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-card border border-border shadow-3">
+            <div class="p-6 lg:p-8">
+              <div class="flex items-center justify-between mb-6">
+                <h3 id="upload-modal-title" class="text-xl lg:text-2xl font-bold text-foreground">上传图片</h3>
+                <button data-dom-id="upload-modal-close" class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-muted text-foreground hover:bg-muted/80 transition-colors" aria-label="关闭">
+                  <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+              </div>
+
+              <form id="upload-form" class="space-y-5">
+                <div>
+                  <label class="block text-sm font-medium text-foreground mb-2">类型</label>
+                  <div class="grid grid-cols-2 gap-3">
+                    <label class="cursor-pointer">
+                      <input type="radio" name="type" value="work" checked class="peer sr-only">
+                      <div class="px-4 py-3 rounded-xl border border-border bg-muted text-center text-muted-foreground peer-checked:border-primary peer-checked:text-foreground peer-checked:bg-primary/10 transition-colors">
+                        我的作品
+                      </div>
+                    </label>
+                    <label class="cursor-pointer">
+                      <input type="radio" name="type" value="comment" class="peer sr-only">
+                      <div class="px-4 py-3 rounded-xl border border-border bg-muted text-center text-muted-foreground peer-checked:border-primary peer-checked:text-foreground peer-checked:bg-primary/10 transition-colors">
+                        用户评论
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <div>
+                  <label for="upload-image" class="block text-sm font-medium text-foreground mb-2">图片</label>
+                  <div class="relative">
+                    <input type="file" id="upload-image" name="image" accept="image/*" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                    <div id="upload-preview" class="flex flex-col items-center justify-center gap-3 py-10 rounded-xl border-2 border-dashed border-border bg-muted hover:border-primary/40 transition-colors text-center">
+                      <i data-lucide="image-plus" class="w-8 h-8 text-muted-foreground"></i>
+                      <p class="text-sm text-muted-foreground">点击或拖拽图片到此处</p>
+                      <p class="text-xs text-muted-foreground">支持 JPG、PNG、WebP</p>
+                    </div>
+                  </div>
+                  <p id="upload-image-error" class="mt-2 text-sm text-error hidden"></p>
+                </div>
+
+                <div>
+                  <label for="upload-title" class="block text-sm font-medium text-foreground mb-2">标题 / 昵称</label>
+                  <input type="text" id="upload-title" name="title" required maxlength="60" placeholder="作品名称或你的昵称" class="w-full px-4 py-3 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
+                </div>
+
+                <div>
+                  <label for="upload-description" class="block text-sm font-medium text-foreground mb-2">描述 / 评论</label>
+                  <textarea id="upload-description" name="description" required maxlength="300" rows="3" placeholder="写几句介绍或评论..." class="w-full px-4 py-3 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors resize-none"></textarea>
+                </div>
+
+                <div id="work-only-fields">
+                  <label for="upload-tags" class="block text-sm font-medium text-foreground mb-2">技术栈标签</label>
+                  <input type="text" id="upload-tags" name="tags" maxlength="100" placeholder="用逗号分隔，例如：React, Tailwind" class="w-full px-4 py-3 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
+                </div>
+
+                <div id="work-link-field">
+                  <label for="upload-link" class="block text-sm font-medium text-foreground mb-2">在线链接</label>
+                  <input type="url" id="upload-link" name="link" placeholder="https://example.com/project" class="w-full px-4 py-3 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                  <button type="submit" data-dom-id="upload-submit" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full gradient-bg text-primary-foreground font-semibold hover:shadow-2 transition-shadow">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                    <span>确认上传</span>
+                  </button>
+                  <button type="button" class="upload-modal-close-secondary inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-border text-foreground font-medium hover:bg-muted transition-colors">
+                    <span>取消</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      lucide.createIcons();
+
+      const nav = document.getElementById('nav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+          nav.classList.add('nav-scrolled');
+        } else {
+          nav.classList.remove('nav-scrolled');
+        }
+      });
+
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          const href = this.getAttribute('href');
+          if (href && href !== '#') {
+            const target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              mobileMenu.classList.remove('open');
+              menuToggle.setAttribute('aria-expanded', 'false');
+            }
+          }
+        });
+      });
+
+      const menuToggle = document.querySelector('[data-dom-id="mobile-menu-toggle"]');
+      const mobileMenu = document.getElementById('mobile-menu');
+      menuToggle.addEventListener('click', () => {
+        const isOpen = mobileMenu.classList.toggle('open');
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+      });
+
+      // Detail modal
+      const detailModal = document.getElementById('detail-modal');
+      const detailImage = document.getElementById('detail-image');
+      const detailTitle = document.getElementById('detail-modal-title');
+      const detailDescription = document.getElementById('detail-description');
+      const detailTags = document.getElementById('detail-tags');
+      const detailLink = document.getElementById('detail-link');
+      const detailType = document.getElementById('detail-type');
+
+      function openDetailModal(item) {
+        detailImage.src = item.image;
+        detailImage.alt = item.title;
+        detailTitle.textContent = item.title;
+        detailDescription.textContent = item.description;
+        detailTags.innerHTML = '';
+        if (item.tags && item.tags.length) {
+          item.tags.forEach(tag => {
+            const span = document.createElement('span');
+            span.className = 'px-3 py-1 rounded-full bg-muted text-muted-foreground text-xs font-medium';
+            span.textContent = tag;
+            detailTags.appendChild(span);
+          });
+        }
+        detailLink.href = item.link || '#';
+        detailLink.style.display = item.link && item.link !== '#' ? 'inline-flex' : 'none';
+        if (item.type === 'work') {
+          detailType.textContent = '作品';
+          detailType.className = 'inline-block px-2 py-1 rounded-md bg-primary/10 text-primary text-xs font-medium mb-3';
+        } else {
+          detailType.textContent = '评论';
+          detailType.className = 'inline-block px-2 py-1 rounded-md bg-muted text-muted-foreground text-xs font-medium mb-3';
+        }
+        detailModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        lucide.createIcons();
+      }
+
+      function closeDetailModal() {
+        detailModal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelector('[data-dom-id="detail-modal-close"]').addEventListener('click', closeDetailModal);
+      document.querySelector('.detail-modal-close-secondary').addEventListener('click', closeDetailModal);
+      document.querySelector('.detail-modal-backdrop').addEventListener('click', closeDetailModal);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !detailModal.classList.contains('hidden')) {
+          closeDetailModal();
+        }
+      });
+
+      // Upload logic
+      const uploadModal = document.getElementById('upload-modal');
+      const uploadForm = document.getElementById('upload-form');
+      const uploadImageInput = document.getElementById('upload-image');
+      const uploadPreview = document.getElementById('upload-preview');
+      const uploadImageError = document.getElementById('upload-image-error');
+      const worksGrid = document.getElementById('works-grid');
+      const emptyState = document.getElementById('empty-state');
+      const typeRadios = document.querySelectorAll('input[name="type"]');
+      const workOnlyFields = document.getElementById('work-only-fields');
+      const workLinkField = document.getElementById('work-link-field');
+
+      const STORAGE_KEY = 'zhuzhuxia_works_and_comments';
+      const MAX_UPLOAD_SIZE_MB = 5;
+
+      function openUploadModal() {
+        uploadModal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        lucide.createIcons();
+      }
+
+      function closeUploadModal() {
+        uploadModal.classList.add('hidden');
+        document.body.style.overflow = '';
+        uploadForm.reset();
+        resetUploadPreview();
+        updateWorkFields();
+      }
+
+      function updateWorkFields() {
+        const isWork = document.querySelector('input[name="type"]:checked').value === 'work';
+        workOnlyFields.style.display = isWork ? 'block' : 'none';
+        workLinkField.style.display = isWork ? 'block' : 'none';
+      }
+
+      typeRadios.forEach(radio => radio.addEventListener('change', updateWorkFields));
+
+      function resetUploadPreview() {
+        uploadPreview.innerHTML = '';
+        const icon = document.createElement('i');
+        icon.setAttribute('data-lucide', 'image-plus');
+        icon.className = 'w-8 h-8 text-muted-foreground';
+        const line1 = document.createElement('p');
+        line1.className = 'text-sm text-muted-foreground';
+        line1.textContent = '点击或拖拽图片到此处';
+        const line2 = document.createElement('p');
+        line2.className = 'text-xs text-muted-foreground';
+        line2.textContent = '支持 JPG、PNG、WebP';
+        uploadPreview.appendChild(icon);
+        uploadPreview.appendChild(line1);
+        uploadPreview.appendChild(line2);
+        uploadImageError.classList.add('hidden');
+        lucide.createIcons();
+      }
+
+      function showUploadPreview(file, dataUrl) {
+        uploadPreview.innerHTML = '';
+        const img = document.createElement('img');
+        img.alt = '预览';
+        img.className = 'max-h-40 rounded-lg object-contain mb-2';
+        img.src = dataUrl;
+        const name = document.createElement('p');
+        name.className = 'text-sm text-foreground font-medium';
+        name.textContent = file.name;
+        const hint = document.createElement('p');
+        hint.className = 'text-xs text-muted-foreground';
+        hint.textContent = '点击更换图片';
+        uploadPreview.appendChild(img);
+        uploadPreview.appendChild(name);
+        uploadPreview.appendChild(hint);
+      }
+
+      function validateUploadImage(file) {
+        if (!file.type.startsWith('image/')) {
+          return '请选择图片文件';
+        }
+        if (file.size > MAX_UPLOAD_SIZE_MB * 1024 * 1024) {
+          return '图片大小不能超过 ' + MAX_UPLOAD_SIZE_MB + ' MB';
+        }
+        return null;
+      }
+
+      uploadImageInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const error = validateUploadImage(file);
+        if (error) {
+          uploadImageError.textContent = error;
+          uploadImageError.classList.remove('hidden');
+          uploadImageInput.value = '';
+          resetUploadPreview();
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          showUploadPreview(file, event.target.result);
+          uploadImageError.classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+      });
+
+      function loadItems() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        } catch {
+          return [];
+        }
+      }
+
+      function saveItems(items) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      }
+
+      function createUserCard(item, index) {
+        const article = document.createElement('article');
+        article.className = 'user-card group cursor-pointer rounded-2xl bg-card border border-border overflow-hidden hover:-translate-y-1 hover:border-primary/40 transition-all duration-300';
+        article.dataset.userIndex = String(index);
+
+        const media = document.createElement('div');
+        media.className = 'aspect-[4/3] overflow-hidden bg-muted relative';
+        const img = document.createElement('img');
+        img.alt = item.title;
+        img.className = 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500';
+        img.src = item.image;
+        media.appendChild(img);
+
+        const actions = document.createElement('div');
+        actions.className = 'absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity';
+        const deleteBtn = document.createElement('button');
+        deleteBtn.type = 'button';
+        deleteBtn.className = 'user-delete-btn inline-flex items-center justify-center w-8 h-8 rounded-full bg-background/90 text-error hover:opacity-80 transition-colors';
+        deleteBtn.setAttribute('aria-label', '删除');
+        const trashIcon = document.createElement('i');
+        trashIcon.setAttribute('data-lucide', 'trash-2');
+        trashIcon.className = 'w-4 h-4';
+        deleteBtn.appendChild(trashIcon);
+        actions.appendChild(deleteBtn);
+        media.appendChild(actions);
+
+        const body = document.createElement('div');
+        body.className = 'p-5';
+        const badge = document.createElement('span');
+        badge.className = item.type === 'work' ? 'inline-block px-2 py-1 rounded-md bg-primary/10 text-primary text-xs font-medium mb-2' : 'inline-block px-2 py-1 rounded-md bg-muted text-muted-foreground text-xs font-medium mb-2';
+        badge.textContent = item.type === 'work' ? '作品' : '评论';
+        const title = document.createElement('h3');
+        title.className = 'text-lg font-semibold text-foreground mb-1';
+        title.textContent = item.title;
+        const desc = document.createElement('p');
+        desc.className = 'text-muted-foreground text-sm line-clamp-2';
+        desc.textContent = item.description;
+        body.appendChild(badge);
+        body.appendChild(title);
+        body.appendChild(desc);
+
+        article.appendChild(media);
+        article.appendChild(body);
+
+        article.addEventListener('click', (e) => {
+          if (e.target.closest('.user-delete-btn')) return;
+          openDetailModal(item);
+        });
+        deleteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          deleteUserItem(index);
+        });
+        return article;
+      }
+
+      function renderUserItems() {
+        document.querySelectorAll('[data-user-index]').forEach(el => el.remove());
+        const items = loadItems();
+        if (items.length === 0) {
+          emptyState.style.display = 'flex';
+        } else {
+          emptyState.style.display = 'none';
+          items.forEach((item, index) => {
+            worksGrid.appendChild(createUserCard(item, index));
+          });
+        }
+        lucide.createIcons();
+      }
+
+      function deleteUserItem(index) {
+        if (!confirm('确定要删除这条内容吗？')) return;
+        const items = loadItems();
+        items.splice(index, 1);
+        saveItems(items);
+        renderUserItems();
+      }
+
+      uploadForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const file = uploadImageInput.files[0];
+        if (!file) {
+          uploadImageError.textContent = '请选择一张图片';
+          uploadImageError.classList.remove('hidden');
+          return;
+        }
+        const error = validateUploadImage(file);
+        if (error) {
+          uploadImageError.textContent = error;
+          uploadImageError.classList.remove('hidden');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const isWork = document.querySelector('input[name="type"]:checked').value === 'work';
+          const tagsInput = document.getElementById('upload-tags').value;
+          const newItem = {
+            type: isWork ? 'work' : 'comment',
+            title: document.getElementById('upload-title').value.trim(),
+            description: document.getElementById('upload-description').value.trim(),
+            tags: isWork ? tagsInput.split(',').map(t => t.trim()).filter(Boolean) : [],
+            link: isWork ? (document.getElementById('upload-link').value.trim() || '#') : '#',
+            image: event.target.result,
+            createdAt: Date.now()
+          };
+          const items = loadItems();
+          items.push(newItem);
+          saveItems(items);
+          renderUserItems();
+          closeUploadModal();
+        };
+        reader.readAsDataURL(file);
+      });
+
+      document.querySelector('[data-dom-id="upload-work-btn"]').addEventListener('click', openUploadModal);
+      document.querySelector('[data-dom-id="hero-upload-btn"]').addEventListener('click', openUploadModal);
+      document.querySelector('[data-dom-id="empty-upload-btn"]').addEventListener('click', openUploadModal);
+      document.querySelector('[data-dom-id="upload-modal-close"]').addEventListener('click', closeUploadModal);
+      document.querySelector('.upload-modal-close-secondary').addEventListener('click', closeUploadModal);
+      document.querySelector('.upload-modal-backdrop').addEventListener('click', closeUploadModal);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !uploadModal.classList.contains('hidden')) {
+          closeUploadModal();
+        }
+      });
+
+      uploadPreview.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadPreview.classList.add('border-primary');
+      });
+      uploadPreview.addEventListener('dragleave', () => {
+        uploadPreview.classList.remove('border-primary');
+      });
+      uploadPreview.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadPreview.classList.remove('border-primary');
+        const file = e.dataTransfer.files[0];
+        if (file) {
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          uploadImageInput.files = dt.files;
+          uploadImageInput.dispatchEvent(new Event('change'));
+        }
+      });
+
+      renderUserItems();
+    </script>
+</body>
+</html>
